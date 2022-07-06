@@ -27,6 +27,7 @@ export const App = () => {
   return (
     <div>
       {/* e.preventDefaultがないとページごとリロードされてしますな。それはよろしくない */}
+      <h1>Todo App</h1>
       <form onSubmit={(e) => { e.preventDefault(); addTodo() }}>
         <input type="text" value={text} onChange={handleOnChange} />
         <input
