@@ -14,6 +14,20 @@ export const App = () => {
     setText(e.target.value);
   };
 
+  const editTodo = (id: number, value: string) => {
+    const deepcopy = todos.map((todo) => ({ ...todo }))
+    // なんで上のスプレッド構文が、({})みたいな形になっているかというと、スプレッド構文で展開しているのは、配列に入っているオブジェクトだから
+    const newTodos = deepcopy.map((todo) => {
+      if (todo.id === id) {
+        todo.value = value
+      }
+      return todo;
+    })
+    console.log("古いデータ")
+    todos.map((todo)=>{console.log(`id:${todo.id},value:${todo.value}`)})
+    setTodos(newTodos);
+  }
+
   const addTodo = () => {
     if (!text) return
     const newTodo: Todo = {
@@ -37,7 +51,7 @@ export const App = () => {
         />
       </form>
       <ul>{
-        todos.map((todo) => { return <li key={todo.id}>{todo.value}</li> })
+        todos.map((todo) => { return <li key={todo.id}><input type='text' value={todo.value} onChange={(e) => { editTodo(todo.id,e.target.value) }}></input></li> })
       }</ul>
     </div >
   )
