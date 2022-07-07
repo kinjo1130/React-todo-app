@@ -136,7 +136,7 @@ export function App() {
             />
             <input
               type="text"
-              disabled={todo.checked || todo.checked}
+              disabled={todo.checked}
               value={todo.value}
               onChange={(e) => {
                 editTodo(todo.id, e.target.value)
