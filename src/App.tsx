@@ -94,8 +94,23 @@ export function App() {
   return (
     <div>
       {/* e.preventDefaultがないとページごとリロードされてしますな。それはよろしくない */}
-      <h1>Todo app</h1>
+      <h1 className="text-3xl font-bold">Todo app</h1>
       <select
+        className="form-select appearance-none
+      block
+      w-full
+      px-3
+      py-1.5
+      text-base
+      font-normal
+      text-gray-700
+      bg-white bg-clip-padding bg-no-repeat
+      border border-solid border-gray-300
+      rounded
+      transition
+      ease-in-out
+      m-0
+      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
         defaultValue="all"
         onChange={(e) => setFilter(e.target.value as Filter)}
       >
@@ -108,6 +123,7 @@ export function App() {
         <button
           onClick={deleteTodo}
           // todos.filter((todo) => todo.removed)ここの配列が0だったときに、ボタンが押せないようにする.だからこのコードはダメ。todos.filter((todo) => todo.removed.length === 0)。これはremovedの中にlengthというプロパティがあるようになってしまう
+          className="btn"
           disabled={todos.filter((todo) => todo.removed).length === 0}
         >
           ごみ箱を空にする
@@ -117,41 +133,78 @@ export function App() {
           onSubmit={(e) => {
             e.preventDefault()
             addTodo()
-          }}
+            }}
+            className="flex justify-center mb-10 mt-5"
         >
-          <input type="text" value={text} onChange={handleOnChange} />
-          <input type="submit" value="追加" onSubmit={addTodo} />
+          <input type="text" className="
+        block
+        w-half
+        px-3
+        py-1.5
+        text-base
+        font-normal
+        text-gray-700
+        bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded
+        transition
+        ease-in-out
+        m-0
+        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+      " value={text} onChange={handleOnChange} />
+          <input type="submit" className="btn" value="追加" onSubmit={addTodo} />
         </form>
       )}
-      <ul>
-        {filteredTodo.map((todo) => (
-          <li key={todo.id}>
-            <input
-              type="checkbox"
-              disabled={todo.removed}
-              checked={todo.checked}
-              onChange={() => {
-                checkedTodo(todo.id, todo.checked)
-              }}
-            />
-            <input
-              type="text"
-              disabled={todo.checked}
-              value={todo.value}
-              onChange={(e) => {
-                editTodo(todo.id, e.target.value)
-              }}
-            />
-            <button
-              onClick={() => {
-                removeTodo(todo.id, todo.removed)
-              }}
-            >
-              {todo.removed ? '復元' : '削除'}
-            </button>
-          </li>
-        ))}
-      </ul>
+      <div className="grid justify-items-center ">
+        <ul>
+          {filteredTodo.map((todo) => (
+            <div className="card w-fit h-24 bg-base-100 shadow-xl my-5 grid place-content-center ">
+              <li key={todo.id}>
+                <input
+                  type="checkbox"
+                  disabled={todo.removed}
+                  checked={todo.checked}
+                  onChange={() => {
+                    checkedTodo(todo.id, todo.checked)
+                  }}
+                />
+                <input
+                  type="text"
+                  className="
+        w-8/12
+        px-3
+        py-1.5
+        text-base
+        font-normal
+        text-gray-700
+        bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded
+        transition
+        ease-in-out
+        m-0
+        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+      "
+                  disabled={todo.checked}
+                  value={todo.value}
+                  onChange={(e) => {
+                    editTodo(todo.id, e.target.value)
+                  }}
+                />
+                <button
+                  className="btn"
+                  onClick={() => {
+                    removeTodo(todo.id, todo.removed)
+                  }}
+                >
+                  {todo.removed ? '復元' : '削除'}
+                </button>
+              </li>
+            </div>
+          ))}
+        </ul>
+      </div>
+
     </div>
   )
 }

@@ -11,12 +11,16 @@
     "format": "prettier --write \"**/*.+(js|json|yml|ts|tsx)\""
   },
   "dependencies": {
+    "autoprefixer": "^10.4.7",
+    "daisyui": "^2.18.1",
     "eslint": "^7.32.0 || ^8.2.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.5.0",
+    "postcss": "^8.4.14",
     "prettier": "^2.7.1",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "tailwindcss": "^3.1.5"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",
