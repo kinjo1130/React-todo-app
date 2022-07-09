@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import Dexie from 'dexie'
+import { useEffect, useState } from 'react'
 import './App.css'
 // function App() {} これだとエラーになる.
 // main.tsxの方でエラーを吐く、おそらく名前付きimportみたいな話だろうと思う
@@ -12,9 +13,20 @@ type Todo = {
 type Filter = 'all' | 'checked' | 'unchecked' | 'removed'
 
 export function App() {
+  //これがhooksだから、ここのtodosにindexDBのデータを入れるべき
   const [text, setText] = useState('')
   const [todos, setTodos] = useState<Todo[]>([])
   const [filter, setFilter] = useState<Filter>('all')
+  // const db = new Dexie('todos');
+  // db.version(1).stores({
+  //   todo: 'value'
+  // })
+  // useEffect(() => {
+  //   db.todo.toArray().then((todo) => {
+  //     console.log(todo)
+  //     setTodos([todo,...todos])
+  //   })
+  // },[])
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value)
@@ -34,7 +46,7 @@ export function App() {
     setTodos(newTodos)
   }
 
-  const addTodo = () => {
+  const addTodo = async () => {
     if (!text) return
     const newTodo: Todo = {
       value: text,
@@ -42,14 +54,18 @@ export function App() {
       checked: false,
       removed: false
     }
+    // ここはindexDBに追加するだけ
+    // await db.todo.put({ value: newTodo.value, id: newTodo.id, checked: newTodo.checked, removed: newTodo.removed })
     setTodos([newTodo, ...todos])
     setText('')
+    // await db.close()
   }
   const checkedTodo = (id: number, checked: boolean) => {
     const deepcopy = todos.map((todo) => ({ ...todo }))
     const newTodos = deepcopy.map((todo) => {
       if (todo.id === id) {
         todo.checked = !checked
+        // await db.todo.put({ value: todo.value, id: todo.id, checked: todo.checked, removed: todo.removed })
       }
       return todo
     })
@@ -97,20 +113,20 @@ export function App() {
       <h1 className="text-3xl font-bold">Todo app</h1>
       <select
         className="form-select appearance-none
-      block
-      w-full
-      px-3
-      py-1.5
-      text-base
-      font-normal
-      text-gray-700
-      bg-white bg-clip-padding bg-no-repeat
-      border border-solid border-gray-300
-      rounded
-      transition
-      ease-in-out
-      m-0
-      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+          block
+          w-full
+          px-3
+          py-1.5
+          text-base
+          font-normal
+          text-gray-700
+          bg-white bg-clip-padding bg-no-repeat
+          border border-solid border-gray-300
+          rounded
+          transition
+          ease-in-out
+          m-0
+          focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
         defaultValue="all"
         onChange={(e) => setFilter(e.target.value as Filter)}
       >
@@ -133,25 +149,25 @@ export function App() {
           onSubmit={(e) => {
             e.preventDefault()
             addTodo()
-            }}
-            className="flex justify-center mb-10 mt-5"
+          }}
+          className="flex justify-center mb-10 mt-5"
         >
           <input type="text" className="
-        block
-        w-half
-        px-3
-        py-1.5
-        text-base
-        font-normal
-        text-gray-700
-        bg-white bg-clip-padding
-        border border-solid border-gray-300
-        rounded
-        transition
-        ease-in-out
-        m-0
-        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-      " value={text} onChange={handleOnChange} />
+              block
+              w-half
+              px-3
+              py-1.5
+              text-base
+              font-normal
+              text-gray-700
+              bg-white bg-clip-padding
+              border border-solid border-gray-300
+              rounded
+              transition
+              ease-in-out
+              m-0
+              focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+            " value={text} onChange={handleOnChange} />
           <input type="submit" className="btn" value="追加" onSubmit={addTodo} />
         </form>
       )}
@@ -171,20 +187,20 @@ export function App() {
                 <input
                   type="text"
                   className="
-        w-8/12
-        px-3
-        py-1.5
-        text-base
-        font-normal
-        text-gray-700
-        bg-white bg-clip-padding
-        border border-solid border-gray-300
-        rounded
-        transition
-        ease-in-out
-        m-0
-        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-      "
+                    w-8/12
+                    px-3
+                    py-1.5
+                    text-base
+                    font-normal
+                    text-gray-700
+                    bg-white bg-clip-padding
+                    border border-solid border-gray-300
+                    rounded
+                    transition
+                    ease-in-out
+                    m-0
+                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                  "
                   disabled={todo.checked}
                   value={todo.value}
                   onChange={(e) => {
