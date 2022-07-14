@@ -44,6 +44,7 @@ export function App() {
     // console.log("元のデータが変更されているかどうか？")
     // todos.map((todo)=>{console.log(`id:${todo.id},value:${todo.value}`)})
     setTodos(newTodos)
+    //
   }
 
   const addTodo = async () => {
